@@ -1,0 +1,216 @@
+---
+title: "Introduction to fscontext"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to fscontext}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+library(fscontext)
+library(knitr)
+library(dplyr)
+```
+
+## What is fscontext?
+
+`fscontext` is an experimental toolkit for observing, contextualising, and reconstructing digital information environments.
+
+Many digital collections contain valuable contextual information, but that information is distributed across folders, filenames, inventories, metadata records, digital surrogates, spreadsheets, repositories, and other partially documented resources. Before semantic integration, knowledge graph construction, or archival description can begin, this contextual evidence must first be identified, organised, and interpreted.
+
+The package provides a reproducible framework for treating filesystem structures and related metadata as observations. These observations can then be transformed into contextual groupings and candidate Record Sets that support further analytical, archival, and semantic workflows.
+
+The package is particularly relevant for:
+
+* born-digital archives;
+* research repositories;
+* shared drives and network storage;
+* audiovisual production environments;
+* digitised cultural heritage collections;
+* provenance and reconstruction workflows.
+
+Rather than treating files as isolated technical objects, `fscontext` treats them as traces of activities, processes, and documentary contexts.
+
+# Context before semantics
+
+Many interoperability projects begin with semantic models, ontologies, or knowledge graphs. In practice, however, organisations often face a more immediate challenge: understanding the information environments they already possess.
+
+A cultural heritage institution may hold thousands of digital surrogates whose relationship to physical collections is only partially documented. A research organisation may maintain decades of project folders spread across multiple drives and repositories. An audiovisual archive may preserve recordings, contracts, metadata, and production artefacts that evolved through complex workflows.
+
+In such situations the primary problem is not semantic integration but contextual reconstruction.
+
+Before records can be linked, classified, harmonised, or federated, it is often necessary to reconstruct how digital resources relate to projects, activities, collections, and people.
+
+`fscontext` provides a reproducible observational layer for this purpose.
+
+
+## The fscontext workflow
+
+The package follows a layered workflow:
+
+```         
+Filesystem observations
+↓
+Snapshots
+↓
+Contextualisation
+↓
+Record Sets
+↓
+Semantic stabilisation
+↓
+Knowledge systems
+```
+
+*Filesystem observations* capture what was observed at a particular point in time.
+
+*Contextualisation* groups observations into meaningful analytical or operational contexts.
+
+*Record Sets* provide higher-level documentary groupings inspired by the Records in Contexts (RiC) conceptual model.
+
+Subsequent  *semantic stabilisation* semantic stabilisation activities can then refine these structures into more formal semantic representations.
+
+
+## Creating a snapshot
+
+The starting point is a filesystem snapshot.
+
+```{r, eval=FALSE}
+snapshot <- scan_storage(root = "D:/projects")
+```
+
+Snapshots are ordinary data frames containing observed filesystem resources and associated metadata.
+
+## Working with example data
+
+The package includes two reproducible filesystem snapshots from the companion package `fscontextdemo` that is available at <https://github.com/dataobservatory-eu/fscontextdemo>.
+
+`fscontextdemo` is a deliberately constructed demonstration repository designed to simulate a small but realistic digital work environment. It contains source code, datasets, generated artefacts, documentation, tests, package metadata, and semantic enrichment examples. The repository was created specifically to support reproducible experimentation with filesystem reconstruction, provenance analysis, contextualisation, and Record Set construction workflows.
+
+The two snapshots capture the repository at different stages of development. Between the first and second observations, additional artefacts, datasets, visualisations, and semantic enrichment workflows were introduced. This creates a realistic longitudinal example that can be used to explore how digital work environments evolve over time.
+
+```{r snapshot02}
+data("fscontextdemo_snapshot_02")
+fscontextdemo_snapshot_02 |>
+  dplyr::select(storage_id, rel_path, filename) |>
+  head()
+```
+
+These observations describe files that were present when the snapshot was created.
+
+## Adding contextual information
+
+Filesystem observations can be enriched with contextual identifiers.
+
+```{r}
+snapshots <- add_snapshot_context(fscontextdemo_snapshot_02)
+```
+
+Additional structural groupings can then be derived.
+
+```{r}
+snapshots <- dplyr::bind_cols(
+  snapshots,
+  derive_structural_groups(
+    snapshots$rel_path
+  )
+)
+
+snapshots |>
+  dplyr::select(
+    rel_path,
+    structural_group,
+    component
+  ) |>
+  head()
+```
+
+This creates lightweight contextual structures that support later reconstruction and analysis.
+
+## Creating Record Sets
+
+One of the central goals of the package is to derive contextual Record Sets from filesystem observations.
+
+```{r snapshotrecordsetdf}
+tmp <- tempfile(fileext = ".rds")
+saveRDS(fscontextdemo_snapshot_02, tmp)
+
+record_set <- snapshot_to_recordset_df(
+  creator = utils::person("Jane", "Doe"),
+  snapshot_files = tmp,
+  roots = "D:/_packages/fscontextdemo",
+  record_set_identifier = "fscontextdemo"
+)
+```
+
+Record Sets provide contextual documentary groupings derived from filesystem evidence.
+
+```{r subsettingrecordset}
+set.seed(12)
+record_set |>
+  dplyr::select(record_set_identifier, filename, quick_sig, size) |>
+  sample_n(10)
+```
+
+## Repeated observation
+
+A single snapshot provides a static view.
+
+Multiple snapshots allow longitudinal analysis.
+
+```{r observeuniverse, eval=FALSE}
+observe_universe(
+  snapshot_dir = snapshot_directory,
+  max_aggregation_depth = 2
+)
+```
+
+Repeated observations support analysis of:
+
+- persistence;
+
+- duplication;
+
+- growth;
+
+- disappearance;
+
+- structural change.
+
+## Semantic stabilisation
+
+Filesystem observations often contain ambiguous or incomplete information.
+
+`fscontext` supports progressive semantic enrichment through semantic stabilisation workflows.
+
+These workflows allow observations to be refined incrementally while preserving the underlying observational evidence.
+
+## Relationship to Records in Contexts
+
+The package is inspired by the Records in Contexts (RiC) family of models.
+
+It is not a formal implementation of RiC-CM or RiC-O.
+
+Instead, it provides practical tools for moving from filesystem observations toward contextual documentary representations that may later support RiC-aligned workflows.
+
+## Next steps
+
+The remaining vignettes demonstrate:
+
+- contextual reconstruction;
+
+- Record Set construction;
+
+- semantic stabilisation;
+
+- longitudinal observation;
+
+- provenance-aware analytical workflows.

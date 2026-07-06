@@ -1,0 +1,92 @@
+test_that("add_snapshot_context adds contextual columns", {
+  data("fscontextdemo_snapshot_02")
+
+  res <- add_snapshot_context(fscontextdemo_snapshot_02)
+
+  expect_true("storage_full_path" %in% names(res))
+  expect_true("storage_path_id" %in% names(res))
+  expect_true("observation_id" %in% names(res))
+})
+
+test_that("storage_full_path combines storage and full path", {
+  data("fscontextdemo_snapshot_02")
+
+  res <- add_snapshot_context(fscontextdemo_snapshot_02)
+
+  expect_equal(
+    res$storage_full_path[1],
+    paste(
+      res$storage_id[1],
+      res$full_path[1],
+      sep = "::"
+    )
+  )
+})
+
+test_that("storage_path_id combines storage and relative path", {
+  data("fscontextdemo_snapshot_02")
+
+  res <- add_snapshot_context(fscontextdemo_snapshot_02)
+
+  expect_equal(
+    res$storage_path_id[1],
+    paste(
+      res$storage_id[1],
+      res$rel_path[1],
+      sep = "::"
+    )
+  )
+})
+
+test_that("observation_id includes scan time", {
+  data("fscontextdemo_snapshot_02")
+
+  res <- add_snapshot_context(fscontextdemo_snapshot_02)
+
+  expected <- paste(
+    res$storage_id[1],
+    res$rel_path[1],
+    format(res$scan_time[1], "%Y%m%d-%H%M%S"),
+    sep = "::"
+  )
+
+  expect_equal(
+    res$observation_id[1],
+    expected
+  )
+})
+
+test_that("observation_id distinguishes repeated observations", {
+  tmp <- tempfile()
+  dir.create(tmp)
+
+  file.create(file.path(tmp, "test.txt"))
+
+  s1 <- scan_storage(
+    root = tmp,
+    storage_id = "test-storage",
+    scan_time = as.POSIXct("2026-01-01 10:00:00")
+  )
+
+  s2 <- scan_storage(
+    root = tmp,
+    storage_id = "test-storage",
+    scan_time = as.POSIXct("2026-01-02 10:00:00")
+  )
+
+  combined <- dplyr::bind_rows(s1, s2)
+
+  res <- add_snapshot_context(combined)
+
+  expect_true(any(duplicated(res$storage_path_id)))
+
+  expect_false(any(duplicated(res$observation_id)))
+})
+
+test_that("add_snapshot_context preserves row count", {
+  data("fscontextdemo_snapshot_02")
+
+  res <- add_snapshot_context(fscontextdemo_snapshot_02)
+
+  expect_equal(nrow(res), nrow(fscontextdemo_snapshot_02))
+})

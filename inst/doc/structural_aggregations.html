@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>From Structural Aggregations to Record Sets</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">From Structural Aggregations to Record
+Sets</h1>
+
+
+
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p>A filesystem snapshot may contain hundreds, thousands, or millions of
+observed resources.</p>
+<p>Before creating Record Sets, users often need lightweight aggregation
+metadata that reveals potentially informative structures within the
+observations.</p>
+<p><code>derive_structural_groups()</code> creates such aggregation
+metadata from observed locators.</p>
+<p>The resulting groupings are not Record Sets. They are candidate
+aggregations that may later support contextual reconstruction, semantic
+stabilisation, or human curation.</p>
+</div>
+<div id="example-1-an-r-package" class="section level2">
+<h2>Example 1: An R package</h2>
+<p>Observe the demo package included with the <code>fscontext</code>
+pacakage for documentation purposes:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>root <span class="ot">&lt;-</span> <span class="fu">system.file</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="st">&quot;testdata/minimal_R_folder&quot;</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">package =</span> <span class="st">&quot;fscontext&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(root)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; C:/Users/DanielAntal/AppData/Local/Temp/RtmpQjBRab/Rinst534c2c2e7476/fscontext/testdata/minimal_R_folder</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; ├── data-raw</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; │   └── create_fsdemo_country_data.R</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; ├── DESCRIPTION</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; ├── fscontextdemo.Rproj</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; ├── man</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; │   ├── hello_world.Rd</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt; │   └── label_country_data.Rd</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; ├── NAMESPACE</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; ├── NEWS.md</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; ├── R</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; │   ├── hello_world.R</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; │   └── label_country_data.R</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; ├── README.md</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt; ├── tests</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; │   ├── testthat</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; │   │   ├── test-hello_world.R</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; │   │   ├── test-label_country_data.R</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; │   │   └── _snaps</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; │   └── testthat.R</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt; └── vignettes</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt;     └── demo.Rmd</span></span></code></pre></div>
+<p>The package contains source code, documentation, data preparation
+scripts, and vignettes organised into a conventional project
+structure.</p>
+<p>We can observe the package and derive structural aggregations:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>snapshot <span class="ot">&lt;-</span> <span class="fu">scan_storage</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">system.file</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    <span class="st">&quot;testdata/minimal_R_folder&quot;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    <span class="at">package =</span> <span class="st">&quot;fscontext&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  )</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; Starting scan_storage() on: C:/Users/DanielAntal/AppData/Local/Temp/RtmpQjBRab/Rinst534c2c2e7476/fscontext/testdata/minimal_R_folder</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; Scanning 15 files.</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; Signatures computed. Detecting repositories and Git status...</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; Files scanned: 15</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; Files in Git repos: 0</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; Files tracked by Git: 0</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; Skipped approximately 0 inaccessible files</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; scan_storage completed in 0.08 seconds</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">derive_structural_groups</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>  snapshot<span class="sc">$</span>rel_path,</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>  <span class="at">profile =</span> <span class="st">&quot;folder-depth-1&quot;</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>)</span></code></pre></div>
+<p>This yields candidate aggregations:</p>
+<pre><code>R
+man
+tests
+vignettes</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>groups <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">filter</span>(structural_group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;man&quot;</span>))</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 2</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;   structural_group component            </span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;                </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 1 man              hello_world.Rd       </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 2 man              label_country_data.Rd</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 3 R                hello_world.R        </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 4 R                label_country_data.R</span></span></code></pre></div>
+<p>The <code>R</code> structural group contains source code files, while
+the <code>man</code> structural group contains documentation files
+generated from the package source.</p>
+<p>These aggregations are not necessarily Record Sets. They are
+structural aggregations derived from observed filesystem organisation.
+In the terminology used throughout this vignette, they are examples of
+aggregation metadata that may help identify potentially informative
+objects.</p>
+<p>The usefulness of these aggregations comes from the fact that
+software projects often organise related resources into stable folders.
+The folder structure therefore provides evidence about how resources are
+grouped and used together.</p>
+<p>A curator, archivist, or researcher might later create Record Sets
+such as:</p>
+<ul>
+<li><p>Source code</p></li>
+<li><p>Documentation</p></li>
+<li><p>Tests</p></li>
+<li><p>Vignettes</p></li>
+</ul>
+<p>However, these Record Sets are not determined by the filesystem
+structure alone.</p>
+<p>For example, a curator may decide to create a Record Set containing
+all source code files from a single package such as
+<strong>dplyr</strong>. Alternatively, they may create a larger Record
+Set containing source files from multiple packages that form part of the
+<strong>tidyverse</strong> ecosystem. Such a Record Set could include
+functions from dplyr, tidyr, purrr, and related packages because these
+resources are frequently used together and share a common analytical
+context.</p>
+<p>The structural aggregations derived by
+<code>derive_structural_groups()</code> therefore provide evidence that
+may support Record Set construction, but they do not define Record Sets
+themselves. The final Record Set remains a curatorial, analytical, or
+archival assertion that depends on purpose, context, and intended
+use.</p>
+</div>
+<div id="example-2-a-zip-archive" class="section level2">
+<h2>Example 2: A ZIP archive</h2>
+<p>The ZIP archive contains the same observed resources as the original
+folder, but packaged into a different storage container.</p>
+<p>The structural aggregations remain stable because they are derived
+from the observed relative paths rather than from the physical storage
+mechanism.</p>
+<p>This illustrates an important principle in fscontext: aggregation
+metadata can often survive storage transformations.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>zip_snapshot <span class="ot">&lt;-</span> <span class="fu">scan_storage</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">system.file</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="st">&quot;testdata/minimal_R_folder.zip&quot;</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="at">package =</span> <span class="st">&quot;fscontext&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  )</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; Starting scan_storage() on: C:/Users/DANIEL~1/AppData/Local/Temp/RtmpULfoSI/minimal_R_folder/minimal_R_folder</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; Scanning 15 files.</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; Signatures computed. Detecting repositories and Git status...</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; Files scanned: 15</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; Files in Git repos: 0</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; Files tracked by Git: 0</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; Skipped approximately 0 inaccessible files</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; scan_storage completed in 0.39 seconds</span></span></code></pre></div>
+<p>The observations differ in storage form but preserve the same
+structural relationships.</p>
+<p>Structural aggregation metadata therefore remains stable across
+storage representations.</p>
+<p>This demonstrates that candidate aggregations may survive
+transformations between storage environments.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>zip_groups <span class="ot">&lt;-</span> <span class="fu">derive_structural_groups</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  zip_snapshot<span class="sc">$</span>rel_path,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">profile =</span> <span class="st">&quot;folder-depth-1&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>zip_groups <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">filter</span>(structural_group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;man&quot;</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 2</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;   structural_group component            </span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;                </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 1 man              hello_world.Rd       </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 2 man              label_country_data.Rd</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 3 R                hello_world.R        </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 4 R                label_country_data.R</span></span></code></pre></div>
+</div>
+<div id="example-3-a-wacz-package" class="section level2">
+<h2>Example 3: A WACZ package</h2>
+<p>WACZ (Web Archive Collection Zipped) is an open archival packaging
+format designed for the preservation, exchange, and analysis of web
+archives. A WACZ package combines archived web content, indexes,
+metadata, and access information into a single portable file.</p>
+<p>The format builds upon established web archiving standards, including
+the WARC (Web ARChive) format standard published by the World Wide Web
+Consortium (W3C): <a href="https://iipc.github.io/warc-specifications/specifications/warc-format/warc-1.0/" class="uri">https://iipc.github.io/warc-specifications/specifications/warc-format/warc-1.0/</a></p>
+<p>WACZ is a media type that allows web archive collections to be
+packaged and shared on the web as a discrete file. A WACZ file includes
+all the data that is needed for the rendering archived content as well
+as contextual information required for users to interpret it. The WACZ
+specification: <a href="https://specs.webrecorder.net/wacz/1.1.1/" class="uri">https://specs.webrecorder.net/wacz/1.1.1/</a></p>
+<p>A WACZ package may therefore contain both archived web content and
+the metadata required to discover, index, and replay that content.</p>
+<p>Observe a WACZ package:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>wacz <span class="ot">&lt;-</span> <span class="fu">scan_storage</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">system.file</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="st">&quot;testdata/fscontext_020.wacz&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    <span class="at">package =</span> <span class="st">&quot;fscontext&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  )</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; Starting scan_storage() on: C:/Users/DANIEL~1/AppData/Local/Temp/RtmpULfoSI/fscontext_020</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; Scanning 5 files.</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; Signatures computed. Detecting repositories and Git status...</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; Files scanned: 5</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; Files in Git repos: 0</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; Files tracked by Git: 0</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; Skipped approximately 0 inaccessible files</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; scan_storage completed in 0.06 seconds</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="fu">derive_structural_groups</span>(</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>  wacz<span class="sc">$</span>rel_path,</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>  <span class="at">profile =</span> <span class="st">&quot;wacz&quot;</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>)</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 2</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt;   structural_group        component   </span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                   &lt;chr&gt;       </span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; 1 archive                 data.warc.gz</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; 2 datapackage-digest.json &lt;NA&gt;        </span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; 3 datapackage.json        &lt;NA&gt;        </span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; 4 indexes                 index.cdx   </span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; 5 pages                   pages.jsonl</span></span></code></pre></div>
+<p>These groupings correspond to the structural organisation of a WACZ
+package.</p>
+<p>Again, they are not Record Sets.</p>
+<p>They are aggregation metadata that help users identify potentially
+informative objects within the archive.</p>
+</div>
+<div id="structural-aggregations-and-informative-objects" class="section level2">
+<h2>Structural Aggregations and Informative Objects</h2>
+<p>Following Pomerantz (2015), observed resources are not necessarily
+informative in isolation. Whether an object becomes informative depends
+on the context in which it is used and interpreted. Pomerantz defines
+metadata as statements about an object, and such statements may increase
+the capacity of an object to become informative.</p>
+<p>Structural aggregation metadata can increase the potential
+informativeness of observations by exposing recurring organisational
+patterns. One common pattern is the use of folder structures to organise
+related resources. In projects that follow relatively disciplined
+document or record organisation practices, folders often reflect
+recurring workflows or functional groupings.</p>
+<p>For example, a standard CRAN package organises source code into an
+<code>R</code> folder, documentation into <code>man</code>, and
+long-form tutorials into <code>vignettes</code>. These folder structures
+provide useful contextual information about the resources they contain.
+As a result, the contents of <code>vignettes</code> may be more
+informative when considered together than when viewed as isolated
+files.</p>
+<p>In fscontext:</p>
+<pre><code>Filesystem observation
+        ↓
+Aggregation metadata
+        ↓
+Potentially informative object
+        ↓
+Record Set candidate</code></pre>
+<p>Structural aggregations are therefore a lightweight analytical layer
+between observation and interpretation.</p>
+</div>
+<div id="structural-aggregations-and-ric" class="section level2">
+<h2>Structural Aggregations and RiC</h2>
+<p>In Records in Contexts (RiC), Record Sets are curated aggregations of
+Records.</p>
+<p><code>derive_structural_groups()</code> does not create Record Sets.
+Instead, it creates aggregation metadata derived from observed locators.
+These aggregations may provide evidence that supports Record Set
+construction.</p>
+<p>For example, in an R software development context, the presence of an
+<code>R</code> folder strongly suggests a grouping of source code files,
+while a <code>man</code> folder suggests a grouping of documentation
+resources.</p>
+<p>In this example,</p>
+<pre><code>R/</code></pre>
+<p>may support the creation of a source-code Record Set.</p>
+<p>In a web archiving context,</p>
+<pre><code>pages/</code></pre>
+<p>may support the creation of a Record Set describing archived web
+pages, while</p>
+<pre><code>archive/</code></pre>
+<p>may support the creation of a Record Set containing archived web
+resources stored in WARC files.</p>
+<p>To give a less engineering context, a wedding photographer may
+organise photographs on a NAS drive as<br />
+</p>
+<pre><code>Photos/
+   Personal/
+      family/
+      vacation/
+   Clients/
+     2026/
+      Smith_wedding/
+         raw/
+         processed/
+      Doe_wedding/
+         raw/
+         processed/
+     2025/
+      Miller_wedding
+         raw/
+         processed/</code></pre>
+<p>This organisation illustrates how structural aggregations emerge from
+folder hierarchies. The photographer may wish to maintain a clear
+separation between personal and professional photographs, suggesting
+different aggregation boundaries for different purposes.</p>
+<p>Using a profile such as <code>folder-depth-3</code>, the structural
+aggregation metadata might identify groupings such as:</p>
+<pre><code>
+Clients/2026/Smith_wedding 
+Clients/2026/Doe_wedding  
+Clients/2025/Miller_wedding  
+</code></pre>
+<p>These aggregations are not yet Record Sets. They are candidate
+groupings derived from observed organisational structure.</p>
+<p>Depending on the intended purpose, a curator or archivist could
+create Record Sets at several different levels. For example:</p>
+<ul>
+<li><p>all photographs relating to a particular wedding;</p></li>
+<li><p>all weddings photographed during a given year;</p></li>
+<li><p>all professional client work;</p></li>
+<li><p>all processed photographs;</p></li>
+<li><p>all photographs, both personal and professional, relating to a
+particular family.</p></li>
+</ul>
+<p>The folder structure therefore provides evidence about how resources
+were organised and used, but it does not determine the final Record
+Sets. The resulting Record Sets remain contextual assertions that depend
+on the needs of creators, users, curators, or archivists.</p>
+</div>
+<div id="from-folder-hierarchies-to-record-sets" class="section level2">
+<h2>From Folder Hierarchies to Record Sets</h2>
+<p>Historically, archives were organised around physical storage
+constraints. Documents were placed into folders, folders into boxes, and
+boxes onto shelves. Archival description standards such as ISAD(G)
+emerged in a world where the physical arrangement of records was often
+inseparable from their intellectual organisation.</p>
+<p>Many contemporary backup and archiving solutions for personal
+computers continue this tradition. File synchronisation systems, backup
+software, and operating-system tools such as Time Machine on macOS or
+File History on Windows preserve folder hierarchies because these
+structures allow users to restore files, projects, and working
+environments quickly and efficiently.</p>
+<p>These approaches remain extremely useful. They are fast, practical,
+and well suited to recovering a lost laptop, restoring a working
+directory, or retrieving an accidentally deleted document.</p>
+<p>However, physical and filesystem structures also impose limitations.
+The organisation of a laptop, network drive, or backup archive reflects
+the needs of a particular moment in time, a particular user, and a
+particular technical environment. As projects evolve, resources become
+distributed across multiple devices, repositories, cloud services, and
+institutions.</p>
+<p>Records in Contexts (RiC) offers a different perspective. Rather than
+treating a folder hierarchy as the primary organising principle, RiC
+allows Record Sets to be created according to contextual relationships
+that may transcend physical storage locations.</p>
+<p>For example, a researcher might wish to create a Record Set
+containing all materials relating to a project, regardless of whether
+those materials originated on an old laptop, a current workstation, a
+cloud storage service, or a web archive. Similarly, an organisation
+might wish to create annual project summaries that combine reports,
+correspondence, datasets, presentations, and archived web resources
+stored across many different systems.</p>
+<p>Other examples include:</p>
+<ul>
+<li><p>all documents associated with a particular grant
+application;</p></li>
+<li><p>all correspondence relating to a specific research
+collaboration;</p></li>
+<li><p>all versions of a manuscript created across multiple
+devices;</p></li>
+<li><p>all photographs associated with a particular client;</p></li>
+<li><p>all source code and documentation contributing to a software
+release;</p></li>
+<li><p>all web resources archived during a specific investigation or
+event.</p></li>
+</ul>
+<p>In these situations, folder structures remain valuable because they
+provide evidence about how resources were originally organised and used.
+Structural aggregations derived from observed locators can therefore
+serve as useful aggregation metadata and provide candidate groupings for
+further analysis.</p>
+<p>The purpose of <code>derive_structural_groups()</code> is not to
+replace archival description or to automatically create Record Sets.
+Instead, it provides a lightweight analytical layer that helps users
+move from observed storage structures toward more meaningful contextual
+aggregations. In this sense, structural aggregations act as a bridge
+between filesystem observations and the richer contextual relationships
+supported by RiC.</p>
+<p>Structural aggregation is only one possible way to derive aggregation
+metadata from observations. Future versions of fscontext may introduce
+additional analytical grouping strategies based on other observable
+characteristics of digital resources.</p>
+<p>For example, files may be grouped according to temporal
+characteristics, such as creation time (<code>birth_time</code>) or
+modification time (<code>mtime</code>), allowing users to identify
+activity periods, project phases, or clusters of work. Similarly,
+resources may be grouped according to authorship, ownership, repository
+affiliation, storage context, or other observable provenance
+indicators.</p>
+<p>Conceptually, these approaches follow the same pattern:</p>
+<pre><code>Filesystem observation         
+        ↓ 
+Aggregation metadata
+        ↓ 
+Potentially informative object
+        ↓ 
+Record Set candidate 
+        ↓
+  Human curation
+        ↓
+   Record Set</code></pre>
+<p>The difference lies in the evidence used to derive the aggregation.
+<code>derive_structural_groups()</code> uses filesystem organisation as
+evidence. Other analytical grouping methods may use temporal,
+authorship, provenance, repository, or content-related observations.</p>
+<p>Together, these analytical layers can help users identify potentially
+informative objects and candidate Record Sets before undertaking more
+formal contextual reconstruction, semantic stabilisation, or archival
+description.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Pomerantz, J. (2015). <em>Metadata</em>. MIT Press.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
