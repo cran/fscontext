@@ -1,6 +1,6 @@
 Package: fscontext
 Title: File System Contextualisation and Record Set Reconstruction
-Version: 0.2.0
+Version: 0.2.1
 Language: en-GB
 Authors@R: 
     person(given = "Daniel", 
@@ -39,9 +39,9 @@ Depends: R (>= 4.1.0)
 LazyData: true
 Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2026-06-30 07:46:45 UTC; DanielAntal
+Packaged: 2026-07-31 09:09:39 UTC; DanielAntal
 Author: Daniel Antal [aut, cre] (ORCID:
     <https://orcid.org/0000-0001-7513-6760>)
 Maintainer: Daniel Antal <daniel.antal@dataobservatory.eu>
 Repository: CRAN
-Date/Publication: 2026-07-06 11:50:07 UTC
+Date/Publication: 2026-07-31 10:50:02 UTC

@@ -1,6 +1,6 @@
-fe6386ab335a4ab9eb5010a256fa3968 *DESCRIPTION
+ca819ee8974da4a71994375d63efb274 *DESCRIPTION
 51816695915e4ca32185e9d52335fba5 *NAMESPACE
-cf4a6bf518dac97f41cc455f2402842e *NEWS.md
+d74847cfae89d3af6321a400ce4f1731 *NEWS.md
 7fc02af98191a3238ba33c6098ba7f72 *R/add_snapshot_context.R
 4b1c45f8e05d56965151c5e3c2a86a57 *R/add_structural_groups.R
 3e0cf10301f1383444106f224082de4a *R/as_value_key.R
@@ -36,7 +36,7 @@ e26b6b89ea29be4dd611ee28e571118c *R/recordset_df.R
 051d715fd249be353953dc81ec4a8d0b *R/refine.R
 d8980b0a351fd2c2339e8be1fd442677 *R/refine_by_rulebook.R
 8fdcb3c387ba834e909fc2febea26a73 *R/save_scan.R
-6e6dacb40440629946fc0b2a684179b2 *R/scan_storage.R
+aea3b7343a40e4ebb31349358dd66eb8 *R/scan_storage.R
 db2e0bd8308385030ea0c199a7445e37 *R/snapshot_storage.R
 d114364e64eae63db3a441ed55c6e241 *R/snapshot_to_reconstruction_context.R
 20b056d6da28b0e345e8ec6f80ec3028 *R/snapshot_to_recordset_df.R
@@ -49,12 +49,15 @@ af91fdc8ebbbe528d89cbfdba097e9c1 *R/utils-globals.R
 aa5fc56a7101d592cc23353b8ef3190f *R/utils.R
 ff6f23b89b64ff2c231a39cd80140455 *R/validate_labelled_conversion.R
 e8fbf94a9dfe35f7ff2a43f03657383f *R/wacz_to_recordset_df.R
-9ff384db3ed515cde4720c0f96502f2f *README.md
-f6d07d6480a66bc5cbb8179a85d28ff4 *build/vignette.rds
+9ba88354b2e0970728ede7c1048cfdd4 *README.md
+1fa34593a89323cec69f1472de3fdc79 *build/vignette.rds
 8ce53acb62863896892b92e0fbdfa24a *data/fscontextdemo_snapshot_01.rda
 035ec59b4895fde029f241188399cc9d *data/fscontextdemo_snapshot_02.rda
 73cdd432b4a7c0709b0f6d8c0a3a5586 *inst/CITATION
 7acbb5ce7afddfefdfa34026143ee1c0 *inst/WORDLIST
+7dffe14d1f60545c0c79c00f21823a6d *inst/doc/file_organisation.R
+01f38e9891252d47dd99415bd9d782d8 *inst/doc/file_organisation.Rmd
+790d2b9969cc44c14b2356e780117418 *inst/doc/file_organisation.html
 6690cf08e46907e6b58ca0ac72b526cf *inst/doc/intro.R
 de81c0861b0ca699d3cc3ba98c7a6343 *inst/doc/intro.Rmd
 15d5d98ff870d43981fc341cec5e5dad *inst/doc/intro.html
@@ -63,10 +66,10 @@ aa60f827a7638af2cb36fa20857ee199 *inst/doc/prelabelled.Rmd
 d7dccda45505572e6842b58ca1c1e7a4 *inst/doc/prelabelled.html
 bfd1ee0c67c8bcca0e1a6586f37ae963 *inst/doc/recordset_df.R
 60fc0dd93723fe54c5314c57ce1a870d *inst/doc/recordset_df.Rmd
-54c939b1f87432fca3e357ae1d6bc6dd *inst/doc/recordset_df.html
+fc42349c77fa7158ee1f2f29199779e8 *inst/doc/recordset_df.html
 361ab964cd98cf626de8f1629f4756a1 *inst/doc/structural_aggregations.R
 5a4e3b5b9191d64316d18c06966ac1a6 *inst/doc/structural_aggregations.Rmd
-4c2c244a3c18d447e7272ad946095ffb *inst/doc/structural_aggregations.html
+20ae7995eab0eaed8e89a08f401edc47 *inst/doc/structural_aggregations.html
 57b0d0275fc643f0817ffed99cc6ae26 *inst/extdata/scan_fscontextdemo_d_fscontextdemo_20260525-170346_f93791.rds
 6f7d248f84a2263bc227515aa0e0d730 *inst/extdata/scan_fscontextdemo_d_fscontextdemo_20260525-174640_ca9789.rds
 5d64d4502fffaff2346e6520d2358b24 *inst/testdata/fscontext_020.wacz
@@ -161,7 +164,7 @@ ecf416d3a5f8fc34895b5a5baeabf0c9 *tests/testthat/test-recordset_df.R
 1cb626624e2b1c02de40da542fe31137 *tests/testthat/test-refine.R
 b588bb03c286bdee76e0833c1f97491e *tests/testthat/test-refine_by_rulebook.R
 c088430f2c8f00df5d78bba3eff7b020 *tests/testthat/test-save_scan.R
-f71526b16fcd31010d18eaef7831120d *tests/testthat/test-scan_storage.R
+5a867a2fd32bd3dcc78e9db52437ee5f *tests/testthat/test-scan_storage.R
 98cd7c33308c64cc24653e337d6425f2 *tests/testthat/test-snapshot_storage.R
 30bb3c090e72458ee70174d8955d77ab *tests/testthat/test-snapshot_to_reconstruction_context.R
 d22402a511097d3eb4b2bc7c4af6e572 *tests/testthat/test-snapshot_to_recordset_df.R
@@ -172,6 +175,7 @@ e6d18886823da55e46a18db32978c5d8 *tests/testthat/test-summarise_observed_activit
 81957e5a8a8626ae4c433f99f4d0079a *tests/testthat/test-utils-git.R
 28e7f507a883a7678507b6c3d8e2d69b *tests/testthat/test-utils.R
 e2a7fc8ef8d199430e8d215da7df68dc *tests/testthat/test-validate_labelled_conversion.R
+01f38e9891252d47dd99415bd9d782d8 *vignettes/file_organisation.Rmd
 de81c0861b0ca699d3cc3ba98c7a6343 *vignettes/intro.Rmd
 aa60f827a7638af2cb36fa20857ee199 *vignettes/prelabelled.Rmd
 60fc0dd93723fe54c5314c57ce1a870d *vignettes/recordset_df.Rmd
