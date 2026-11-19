@@ -387,15 +387,15 @@ relationships between the files.</p>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">path =</span> tmp_dir,</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">root =</span> tmp_dir</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Starting scan_storage() on: C:/Users/DANIEL~1/AppData/Local/Temp/RtmpUNOJJ9/recordset_df</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Starting scan_storage() on: C:/Users/DANIEL~1/AppData/Local/Temp/RtmpYf41h4/recordset_df</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; Scanning 5 files.</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; Signatures computed. Detecting repositories and Git status...</span></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; Files scanned: 5</span></span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; Files in Git repos: 0</span></span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; Files tracked by Git: 0</span></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; Skipped approximately 0 inaccessible files</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; scan_storage completed in 0.09 seconds</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; Saved: C:\Users\DANIEL~1\AppData\Local\Temp\RtmpUNOJJ9/recordset_df/scan_local-storage_c_recordset_df_20260731-110930_06e59c.rds</span></span></code></pre></div>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; scan_storage completed in 0.04 seconds</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; Saved: C:\Users\DANIEL~1\AppData\Local\Temp\RtmpYf41h4/recordset_df/scan_local-storage_c_recordset_df_20261119-162854_bbf6fa.rds</span></span></code></pre></div>
 <p>Next we add simple curatorial metadata. In this example we assign a
 human-readable description to each observed file and indicate which
 files belong to the same Record. You can add any further metadata or
@@ -441,11 +441,11 @@ files. In this example, Record <code>a</code> has two Record Parts
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; Doe (:tba): Demonstrator Record Set [dataset]</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;   rowid stem  filename description             quick_sig ctime               </span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;                   &lt;chr&gt;     &lt;dttm&gt;             </span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 1 obs1  a     a.html   Description of Object A 7ebf6252  2026-07-31 11:09:26</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 2 obs2  a     a.jpg    Image of Object A       c6849a17  2026-07-31 11:09:27</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 3 obs3  b     b.html   Description of Record B d391c0c0  2026-07-31 11:09:28</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 4 obs4  b     b.pdf    Surrogate of Record B   ca0753e1  2026-07-31 11:09:29</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 5 obs5  b     b.txt    OCR Text of Record B    e1c59197  2026-07-31 11:09:30</span></span></code></pre></div>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 1 obs1  a     a.html   Description of Object A 7ebf6252  2026-11-19 16:28:50</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 2 obs2  a     a.jpg    Image of Object A       c6849a17  2026-11-19 16:28:51</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 3 obs3  b     b.html   Description of Record B d391c0c0  2026-11-19 16:28:52</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 4 obs4  b     b.pdf    Surrogate of Record B   ca0753e1  2026-11-19 16:28:53</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 5 obs5  b     b.txt    OCR Text of Record B    e1c59197  2026-11-19 16:28:54</span></span></code></pre></div>
 <p>The <code>stem</code> column is declared to contain identifiers of
 RiC Records. The values are annotated as <code>rico:Identifier</code>
 objects and labelled “Record Identifier”, allowing downstream software

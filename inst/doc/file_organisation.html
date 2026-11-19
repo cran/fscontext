@@ -365,27 +365,29 @@ changes to be reconstructed</p>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">dir.create</span>(photos)</span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>) {</span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="fu">writeLines</span>(<span class="fu">as.character</span>(i),<span class="fu">file.path</span>(camera, <span class="fu">paste0</span>(<span class="st">&quot;P&quot;</span>, i, <span class="st">&quot;.txt&quot;</span>)))</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="fu">writeLines</span>(<span class="fu">as.character</span>(i), <span class="fu">file.path</span>(camera, <span class="fu">paste0</span>(<span class="st">&quot;P&quot;</span>, i, <span class="st">&quot;.txt&quot;</span>)))</span>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>}</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">dir</span>(camera)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;P1.txt&quot; &quot;P2.txt&quot; &quot;P3.txt&quot; &quot;P4.txt&quot; &quot;P5.txt&quot; &quot;P6.txt&quot; &quot;P7.txt&quot; &quot;P8.txt&quot;</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; [9] &quot;P9.txt&quot;</span></span></code></pre></div>
 <p>Let’s take a snapshot as the files arrive from a camera or stored on
 a memory card.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>before <span class="ot">&lt;-</span> <span class="fu">snapshot_storage</span>(<span class="at">path =</span> camera, </span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                           <span class="at">root =</span> vignette_folder, </span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                           <span class="at">person_id =</span> <span class="st">&quot;photographer&quot;</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; Starting scan_storage() on: C:/Users/DANIEL~1/AppData/Local/Temp/RtmpUNOJJ9/vignette</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; Scanning 9 files.</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; Signatures computed. Detecting repositories and Git status...</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; Files scanned: 9</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; Files in Git repos: 0</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; Files tracked by Git: 0</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Skipped approximately 0 inaccessible files</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; scan_storage completed in 0.12 seconds</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; Saved: C:\Users\DANIEL~1\AppData\Local\Temp\RtmpUNOJJ9/vignette/camera/scan_local-storage_c_vignette_20260731-110920_d4b01c.rds</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>before <span class="ot">&lt;-</span> <span class="fu">snapshot_storage</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">path =</span> camera,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">root =</span> vignette_folder,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">person_id =</span> <span class="st">&quot;photographer&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; Starting scan_storage() on: C:/Users/DANIEL~1/AppData/Local/Temp/RtmpYf41h4/vignette</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; Scanning 9 files.</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; Signatures computed. Detecting repositories and Git status...</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; Files scanned: 9</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Files in Git repos: 0</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; Files tracked by Git: 0</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; Skipped approximately 0 inaccessible files</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; scan_storage completed in 0.11 seconds</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; Saved: C:\Users\DANIEL~1\AppData\Local\Temp\RtmpYf41h4/vignette/camera/scan_local-storage_c_vignette_20261119-162845_331b5b.rds</span></span></code></pre></div>
 <p>Summarise the files:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>summary_before <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(before) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>summary_before <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(before) <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(person_id, rel_path, stem, size)</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">print</span>(summary_before)</span>
@@ -407,27 +409,37 @@ keeping and designated for deleting.</p>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="fu">file.path</span>(photos, <span class="st">&quot;delete&quot;</span>))</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">file.rename</span>(</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">file.path</span>(camera, <span class="fu">c</span>(<span class="st">&quot;P1.txt&quot;</span>,<span class="st">&quot;P2.txt&quot;</span>,<span class="st">&quot;P5.txt&quot;</span>)),</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">file.path</span>(photos, <span class="st">&quot;house&quot;</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>            <span class="fu">c</span>(<span class="st">&quot;P1.txt&quot;</span>,<span class="st">&quot;P2.txt&quot;</span>,<span class="st">&quot;P5.txt&quot;</span>))</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>)</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">file.rename</span>(</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="fu">file.path</span>(camera,</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>            <span class="fu">c</span>(<span class="st">&quot;P3.txt&quot;</span>,<span class="st">&quot;P4.txt&quot;</span>,<span class="st">&quot;P6.txt&quot;</span>,<span class="st">&quot;P7.txt&quot;</span>)),</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  <span class="fu">file.path</span>(photos, <span class="st">&quot;garden&quot;</span>,</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>            <span class="fu">c</span>(<span class="st">&quot;P3.txt&quot;</span>,<span class="st">&quot;P4.txt&quot;</span>,<span class="st">&quot;P6.txt&quot;</span>,<span class="st">&quot;P7.txt&quot;</span>))</span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>)</span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE TRUE</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="fu">file.rename</span>(</span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>  <span class="fu">file.path</span>(camera,</span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>            <span class="fu">c</span>(<span class="st">&quot;P8.txt&quot;</span>,<span class="st">&quot;P9.txt&quot;</span>)),</span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>  <span class="fu">file.path</span>(photos, <span class="st">&quot;delete&quot;</span>,</span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>            <span class="fu">c</span>(<span class="st">&quot;P8.txt&quot;</span>,<span class="st">&quot;P9.txt&quot;</span>))</span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>)</span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE</span></span></code></pre></div>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">file.path</span>(camera, <span class="fu">c</span>(<span class="st">&quot;P1.txt&quot;</span>, <span class="st">&quot;P2.txt&quot;</span>, <span class="st">&quot;P5.txt&quot;</span>)),</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">file.path</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    photos, <span class="st">&quot;house&quot;</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;P1.txt&quot;</span>, <span class="st">&quot;P2.txt&quot;</span>, <span class="st">&quot;P5.txt&quot;</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  )</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="fu">file.rename</span>(</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  <span class="fu">file.path</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>    camera,</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;P3.txt&quot;</span>, <span class="st">&quot;P4.txt&quot;</span>, <span class="st">&quot;P6.txt&quot;</span>, <span class="st">&quot;P7.txt&quot;</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>  ),</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>  <span class="fu">file.path</span>(</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>    photos, <span class="st">&quot;garden&quot;</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;P3.txt&quot;</span>, <span class="st">&quot;P4.txt&quot;</span>, <span class="st">&quot;P6.txt&quot;</span>, <span class="st">&quot;P7.txt&quot;</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>  )</span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>)</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE TRUE</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="fu">file.rename</span>(</span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>  <span class="fu">file.path</span>(</span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>    camera,</span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;P8.txt&quot;</span>, <span class="st">&quot;P9.txt&quot;</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>  ),</span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>  <span class="fu">file.path</span>(</span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a>    photos, <span class="st">&quot;delete&quot;</span>,</span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;P8.txt&quot;</span>, <span class="st">&quot;P9.txt&quot;</span>)</span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a>  )</span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a>)</span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE</span></span></code></pre></div>
 <p>The resulting file structure:</p>
 <pre class="text"><code>photos/
 
@@ -448,25 +460,27 @@ keeping and designated for deleting.</p>
 <p>The second snapshot records the reorganised collection. Although the
 files themselves have not changed, their contextual location within the
 filesystem has.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>after <span class="ot">&lt;-</span> <span class="fu">snapshot_storage</span>(<span class="at">path =</span> photos, </span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                          <span class="at">root =</span> vignette_folder, </span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                          <span class="at">person_id =</span> <span class="st">&quot;archivist&quot;</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; Starting scan_storage() on: C:/Users/DANIEL~1/AppData/Local/Temp/RtmpUNOJJ9/vignette</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; Scanning 10 files.</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; Signatures computed. Detecting repositories and Git status...</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; Files scanned: 10</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; Files in Git repos: 0</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; Files tracked by Git: 0</span></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; Skipped approximately 0 inaccessible files</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; scan_storage completed in 0.19 seconds</span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; Saved: C:\Users\DANIEL~1\AppData\Local\Temp\RtmpUNOJJ9/vignette/photos/scan_local-storage_c_vignette_20260731-110921_d1b645.rds</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>after <span class="ot">&lt;-</span> <span class="fu">snapshot_storage</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">path =</span> photos,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">root =</span> vignette_folder,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">person_id =</span> <span class="st">&quot;archivist&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; Starting scan_storage() on: C:/Users/DANIEL~1/AppData/Local/Temp/RtmpYf41h4/vignette</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; Scanning 10 files.</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; Signatures computed. Detecting repositories and Git status...</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; Files scanned: 10</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; Files in Git repos: 0</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; Files tracked by Git: 0</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; Skipped approximately 0 inaccessible files</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; scan_storage completed in 0.06 seconds</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; Saved: C:\Users\DANIEL~1\AppData\Local\Temp\RtmpYf41h4/vignette/photos/scan_local-storage_c_vignette_20261119-162845_331b5b.rds</span></span></code></pre></div>
 <p>We can see the new summary:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>summary_after <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(after) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>summary_after <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(after) <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(person_id, rel_path, stem, size)</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">print</span>(summary_after)</span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt;    person_id                                                        rel_path</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 1  archivist camera/scan_local-storage_c_vignette_20260731-110920_d4b01c.rds</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 1  archivist camera/scan_local-storage_c_vignette_20261119-162845_331b5b.rds</span></span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; 2  archivist                                            photos/delete/P8.txt</span></span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; 3  archivist                                            photos/delete/P9.txt</span></span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; 4  archivist                                            photos/garden/P3.txt</span></span>
@@ -477,7 +491,7 @@ filesystem has.</p>
 <span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; 9  archivist                                             photos/house/P2.txt</span></span>
 <span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; 10 archivist                                             photos/house/P5.txt</span></span>
 <span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;                                                    stem size</span></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; 1  scan_local-storage_c_vignette_20260731-110920_d4b01c 1160</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; 1  scan_local-storage_c_vignette_20261119-162845_331b5b 1136</span></span>
 <span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; 2                                                    P8    3</span></span>
 <span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; 3                                                    P9    3</span></span>
 <span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; 4                                                    P3    3</span></span>
@@ -491,39 +505,38 @@ filesystem has.</p>
 <p>The files are matched using their filename (stem) and file size. The
 comparison reveals how each file moved from the original camera import
 into its new contextual location.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>summary_path_change <span class="ot">&lt;-</span> summary_before <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    <span class="at">rel_path_before =</span> rel_path,</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>    <span class="at">person_before =</span> person_id</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>    summary_after <span class="sc">|&gt;</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>      <span class="fu">rename</span>(</span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>        <span class="at">rel_path_after =</span> rel_path,</span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>        <span class="at">person_after =</span> person_id</span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>      ),</span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;stem&quot;</span>, <span class="st">&quot;size&quot;</span>)</span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>    stem, size,</span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>    person_before, rel_path_before,</span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>    rel_path_after, person_after</span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;txt$&quot;</span>, rel_path_before))</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>summary_path_change <span class="ot">&lt;-</span> summary_before <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="at">rel_path_before =</span> rel_path,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    <span class="at">person_before =</span> person_id</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>    summary_after <span class="sc">|&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>      <span class="fu">rename</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>        <span class="at">rel_path_after =</span> rel_path,</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>        <span class="at">person_after =</span> person_id</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>      ),</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;stem&quot;</span>, <span class="st">&quot;size&quot;</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>    stem, size,</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>    person_before, rel_path_before,</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>    rel_path_after, person_after</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;txt$&quot;</span>, rel_path_before))</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a></span>
 <span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a></span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a></span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="fu">print</span>(summary_path_change)</span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt;   stem size person_before rel_path_before       rel_path_after person_after</span></span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; 1   P1    3  photographer   camera/P1.txt  photos/house/P1.txt    archivist</span></span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt; 2   P2    3  photographer   camera/P2.txt  photos/house/P2.txt    archivist</span></span>
-<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt; 3   P3    3  photographer   camera/P3.txt photos/garden/P3.txt    archivist</span></span>
-<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt; 4   P4    3  photographer   camera/P4.txt photos/garden/P4.txt    archivist</span></span>
-<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#&gt; 5   P5    3  photographer   camera/P5.txt  photos/house/P5.txt    archivist</span></span>
-<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt; 6   P6    3  photographer   camera/P6.txt photos/garden/P6.txt    archivist</span></span>
-<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt; 7   P7    3  photographer   camera/P7.txt photos/garden/P7.txt    archivist</span></span>
-<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co">#&gt; 8   P8    3  photographer   camera/P8.txt photos/delete/P8.txt    archivist</span></span>
-<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="co">#&gt; 9   P9    3  photographer   camera/P9.txt photos/delete/P9.txt    archivist</span></span></code></pre></div>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="fu">print</span>(summary_path_change)</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt;   stem size person_before rel_path_before       rel_path_after person_after</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; 1   P1    3  photographer   camera/P1.txt  photos/house/P1.txt    archivist</span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; 2   P2    3  photographer   camera/P2.txt  photos/house/P2.txt    archivist</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt; 3   P3    3  photographer   camera/P3.txt photos/garden/P3.txt    archivist</span></span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt; 4   P4    3  photographer   camera/P4.txt photos/garden/P4.txt    archivist</span></span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt; 5   P5    3  photographer   camera/P5.txt  photos/house/P5.txt    archivist</span></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#&gt; 6   P6    3  photographer   camera/P6.txt photos/garden/P6.txt    archivist</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt; 7   P7    3  photographer   camera/P7.txt photos/garden/P7.txt    archivist</span></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt; 8   P8    3  photographer   camera/P8.txt photos/delete/P8.txt    archivist</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co">#&gt; 9   P9    3  photographer   camera/P9.txt photos/delete/P9.txt    archivist</span></span></code></pre></div>
 <p>For example, photograph P1 was originally observed in the camera
 import and later observed in the house folder.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>summary_path_change <span class="sc">|&gt;</span></span>

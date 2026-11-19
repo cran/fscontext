@@ -19,20 +19,21 @@ dir.create(camera)
 dir.create(photos)
 
 for (i in 1:9) {
-  writeLines(as.character(i),file.path(camera, paste0("P", i, ".txt")))
+  writeLines(as.character(i), file.path(camera, paste0("P", i, ".txt")))
 }
-
 
 ## ----showcamera---------------------------------------------------------------
 dir(camera)
 
 ## ----snapshotbefore-----------------------------------------------------------
-before <- snapshot_storage(path = camera, 
-                           root = vignette_folder, 
-                           person_id = "photographer")
+before <- snapshot_storage(
+  path = camera,
+  root = vignette_folder,
+  person_id = "photographer"
+)
 
 ## ----summarybefore------------------------------------------------------------
-summary_before <- readRDS(before) |> 
+summary_before <- readRDS(before) |>
   dplyr::select(person_id, rel_path, stem, size)
 
 print(summary_before)
@@ -43,38 +44,49 @@ dir.create(file.path(photos, "garden"))
 dir.create(file.path(photos, "delete"))
 
 file.rename(
-  file.path(camera, c("P1.txt","P2.txt","P5.txt")),
-  file.path(photos, "house",
-            c("P1.txt","P2.txt","P5.txt"))
+  file.path(camera, c("P1.txt", "P2.txt", "P5.txt")),
+  file.path(
+    photos, "house",
+    c("P1.txt", "P2.txt", "P5.txt")
+  )
 )
 
 file.rename(
-  file.path(camera,
-            c("P3.txt","P4.txt","P6.txt","P7.txt")),
-  file.path(photos, "garden",
-            c("P3.txt","P4.txt","P6.txt","P7.txt"))
+  file.path(
+    camera,
+    c("P3.txt", "P4.txt", "P6.txt", "P7.txt")
+  ),
+  file.path(
+    photos, "garden",
+    c("P3.txt", "P4.txt", "P6.txt", "P7.txt")
+  )
 )
 
 file.rename(
-  file.path(camera,
-            c("P8.txt","P9.txt")),
-  file.path(photos, "delete",
-            c("P8.txt","P9.txt"))
+  file.path(
+    camera,
+    c("P8.txt", "P9.txt")
+  ),
+  file.path(
+    photos, "delete",
+    c("P8.txt", "P9.txt")
+  )
 )
 
 ## ----after--------------------------------------------------------------------
-after <- snapshot_storage(path = photos, 
-                          root = vignette_folder, 
-                          person_id = "archivist")
+after <- snapshot_storage(
+  path = photos,
+  root = vignette_folder,
+  person_id = "archivist"
+)
 
 ## ----summaryafter-------------------------------------------------------------
-summary_after <- readRDS(after) |> 
+summary_after <- readRDS(after) |>
   dplyr::select(person_id, rel_path, stem, size)
 
 print(summary_after)
 
 ## ----joinsummaries------------------------------------------------------------
-
 summary_path_change <- summary_before |>
   rename(
     rel_path_before = rel_path,

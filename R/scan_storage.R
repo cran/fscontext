@@ -224,14 +224,18 @@ scan_zip_storage <- function(
   compute_signature = TRUE,
   max_signature_size = 200 * 1024 * 1024
 ) {
-  
   archive_path <- fs::path_abs(root)
-  archive_id <- tools::file_path_sans_ext(basename(archive_path))
-  extract_root <- fs::path(tempdir(), archive_id)
 
-  if (fs::dir_exists(extract_root)) {
-    fs::dir_delete(extract_root)
-  }
+  # Allocate a distinct extraction directory for each scan.
+  # Archives may share a basename, and earlier observations must
+  # remain accessible after subsequent scans.
+  archive_id <- tools::file_path_sans_ext(basename(archive_path))
+  extract_root <- tempfile(
+    pattern = paste0(archive_id, "_"),
+    tmpdir = tempdir()
+  )
+
+  fs::dir_create(extract_root)
 
   # ---------------------------------------------------------
   # Determine observational root.
@@ -305,6 +309,7 @@ scan_directory_storage <- function(
   max_signature_size = 200 * 1024 * 1024
 ) {
   start_time <- Sys.time()
+
   message("Starting scan_storage() on: ", root)
 
   root <- fs::path_abs(root)
@@ -314,9 +319,9 @@ scan_directory_storage <- function(
   }
 
   # --- initialise the return value ---
-  
+
   snapshot <- empty_snapshot()
-  
+
   # --- list files safely ---
   files <- fs::dir_ls(
     path = root,
@@ -356,24 +361,24 @@ scan_directory_storage <- function(
     fs::file_info(files),
     error = function(e) {
       message("file_info() failed, retrying per-file...")
-      
+
       results <- lapply(files, function(f) {
         tryCatch(
           fs::file_info(f),
           error = function(e) NULL
         )
       })
-      
+
       results <- Filter(Negate(is.null), results)
-      
+
       if (length(results) == 0) {
         return(NULL)
       }
-      
+
       do.call(rbind, results)
     }
   )
-  
+
   if (is.null(info) || nrow(info) == 0) {
     files <- files[0]
   } else {
@@ -384,11 +389,11 @@ scan_directory_storage <- function(
 
   if (length(files) > 0) {
     # If there are no files at the relative path, return and empty data.frame
-    
+
     rel_path <- fs::path_rel(files, start = root)
     filename <- fs::path_file(files)
     ext <- fs::path_ext(files)
-    
+
     snapshot <- data.frame(
       storage_id = storage_id,
       person_id = person_id,
@@ -413,7 +418,7 @@ scan_directory_storage <- function(
       git_tracked = rep(NA, length(files)),
       stringsAsFactors = FALSE
     )
-    
+
     snapshot$storage_path_id <- paste(
       snapshot$storage_id,
       snapshot$rel_path,
@@ -474,13 +479,23 @@ scan_directory_storage <- function(
   repo_roots <- unique(dirname(git_dirs))
   repo_roots_norm <- fs::path_abs(repo_roots)
 
+
+  # Find the nearest enclosing Git repository.
+  # Match complete directory components, not string prefixes:
+  # "project-backup" must not be attributed to "project".
   find_repo_root_safe <- function(path) {
-    matches <- repo_roots_norm[startsWith(path, repo_roots_norm)]
+    matches <- repo_roots_norm[
+      path == repo_roots_norm |
+        startsWith(path, paste0(repo_roots_norm, "/"))
+    ]
+
     if (length(matches) == 0) {
       return(NA_character_)
     }
+
     matches[which.max(nchar(matches))]
   }
+
 
   if (length(repo_roots_norm) > 0) {
     snapshot$repo_root <- vapply(
